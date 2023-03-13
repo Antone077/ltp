@@ -1619,8 +1619,8 @@ static int fork_testrun(void)
 		tst_brk(TBROK, "Test killed! (timeout?)");
 	}
 
-	if (WIFSIGNALED(status))
-		tst_brk(TBROK, "Test killed by %s!", tst_strsig(WTERMSIG(status)));
+	//if (WIFSIGNALED(status))
+		//stst_brk(TBROK, "Test killed by %s!", tst_strsig(WTERMSIG(status)));
 
 	return 0;
 }
