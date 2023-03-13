@@ -1366,7 +1366,7 @@ static void heartbeat(void)
 		exit(TBROK);
 	}
 
-	kill(getppid(), SIGUSR1);
+	//kill(getppid(), SIGUSR1);
 }
 
 static void run_tests(void)
@@ -1380,7 +1380,8 @@ static void run_tests(void)
 		tst_test->test_all();
 
 		if (getpid() != main_pid) {
-			exit(0);
+			//exit(0);
+			_exit(0);
 		}
 
 		tst_reap_children();
@@ -1396,7 +1397,8 @@ static void run_tests(void)
 		tst_test->test(i);
 
 		if (getpid() != main_pid) {
-			exit(0);
+			//exit(0);
+			_exit(0);
 		}
 
 		tst_reap_children();
@@ -1465,7 +1467,7 @@ static void testrun(void)
 	}
 
 	do_test_cleanup();
-	exit(0);
+	_exit(0);
 }
 
 static pid_t test_pid;
@@ -1574,17 +1576,19 @@ static int fork_testrun(void)
 	int status;
 
 	SAFE_SIGNAL(SIGINT, sigint_handler);
-	SAFE_SIGNAL(SIGTERM, sigint_handler);
+	//SAFE_SIGNAL(SIGTERM, sigint_handler);
 
 	alarm(results->timeout);
 
-	test_pid = fork();
+	//test_pid = fork();
+	test_pid = vfork();
 	if (test_pid < 0)
-		tst_brk(TBROK | TERRNO, "fork()");
+		tst_brk(TBROK | TERRNO, "vfork()");
 
 	if (!test_pid) {
 		tst_disable_oom_protection(0);
-		SAFE_SIGNAL(SIGALRM, SIG_DFL);
+		//SAFE_SIGNAL(SIGALRM, SIG_DFL);
+		tst_res(TINFO, "In Child process ...\n");
 		SAFE_SIGNAL(SIGUSR1, SIG_DFL);
 		SAFE_SIGNAL(SIGTERM, SIG_DFL);
 		SAFE_SIGNAL(SIGINT, SIG_DFL);
@@ -1592,8 +1596,9 @@ static int fork_testrun(void)
 		testrun();
 	}
 
-	SAFE_WAITPID(test_pid, &status, 0);
-	alarm(0);
+	//SAFE_WAITPID(test_pid, &status, 0);
+	//alarm(0);
+	waitpid(test_pid, &status, 0);
 	SAFE_SIGNAL(SIGTERM, SIG_DFL);
 	SAFE_SIGNAL(SIGINT, SIG_DFL);
 
