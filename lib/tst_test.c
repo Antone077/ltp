@@ -1590,7 +1590,7 @@ static int fork_testrun(void)
 		//SAFE_SIGNAL(SIGALRM, SIG_DFL);
 		tst_res(TINFO, "In Child process ...\n");
 		SAFE_SIGNAL(SIGUSR1, SIG_DFL);
-		SAFE_SIGNAL(SIGTERM, SIG_DFL);
+		//SAFE_SIGNAL(SIGTERM, SIG_DFL);
 		SAFE_SIGNAL(SIGINT, SIG_DFL);
 		SAFE_SETPGID(0, 0);
 		testrun();
@@ -1599,7 +1599,7 @@ static int fork_testrun(void)
 	//SAFE_WAITPID(test_pid, &status, 0);
 	//alarm(0);
 	waitpid(test_pid, &status, 0);
-	SAFE_SIGNAL(SIGTERM, SIG_DFL);
+	//SAFE_SIGNAL(SIGTERM, SIG_DFL);
 	SAFE_SIGNAL(SIGINT, SIG_DFL);
 
 	if (tst_test->taint_check && tst_taint_check()) {
