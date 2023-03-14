@@ -256,10 +256,10 @@ static void cleanup(void)
 
 static struct tst_test test = {
 	.test_all = run,
-	.needs_kconfigs = (const char *[]) {
-		"CONFIG_BSD_PROCESS_ACCT",
-		NULL
-	},
+	//.needs_kconfigs = (const char *[]) {
+	//	"CONFIG_BSD_PROCESS_ACCT",
+	//	NULL
+	//},
 	.setup = setup,
 	.cleanup = cleanup,
 	.needs_tmpdir = 1,
