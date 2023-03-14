@@ -28,7 +28,7 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-//#include "tst_kconfig.h"
+#include "tst_kconfig.h"
 #include "tst_test.h"
 #include "lapi/acct.h"
 
