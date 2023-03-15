@@ -50,6 +50,11 @@ static void check_file(void)
 	SAFE_CLOSE(fd_out);
 }
 
+int sys_splice(int fd_in, loff_t *off_in, int fd_out, loff_t *off_out, size_t len, unsigned int flags)
+{
+	return tst_syscall(__NR_splice, fd_in, off_in, fd_out, off_out, len, flags);
+}
+
 static void splice_test(void)
 {
 	int pipes[2];
@@ -60,10 +65,11 @@ static void splice_test(void)
 	SAFE_PIPE(pipes);
 
 	ret = splice(fd_in, NULL, pipes[1], NULL, TEST_BLOCK_SIZE, 0);
+
 	if (ret < 0)
 		tst_brk(TBROK | TERRNO, "splice(fd_in, pipe) failed");
 
-	ret = splice(pipes[0], NULL, fd_out, NULL, TEST_BLOCK_SIZE, 0);
+	ret = sys_splice(pipes[0], NULL, fd_out, NULL, TEST_BLOCK_SIZE, 0);
 	if (ret < 0)
 		tst_brk(TBROK | TERRNO, "splice(pipe, fd_out) failed");
 
