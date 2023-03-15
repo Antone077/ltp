@@ -64,7 +64,7 @@ static void splice_test(void)
 	fd_out = SAFE_OPEN(TESTFILE2, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	SAFE_PIPE(pipes);
 
-	ret = splice(fd_in, NULL, pipes[1], NULL, TEST_BLOCK_SIZE, 0);
+	ret = sys_splice(fd_in, NULL, pipes[1], NULL, TEST_BLOCK_SIZE, 0);
 
 	if (ret < 0)
 		tst_brk(TBROK | TERRNO, "splice(fd_in, pipe) failed");
