@@ -49,11 +49,16 @@ static void setup(void)
 	SAFE_WRITE(SAFE_WRITE_ALL, pipes[1], STR, sizeof(STR) - 1);
 }
 
+int sys_tee(int fd_in, int fd_out, size_t len, unsigned int flags)
+{
+	return tst_syscall(__NR_tee, fd_in, fd_out, len, flags);
+}
+
 static void tee_verify(unsigned int n)
 {
 	struct tcase *tc = &tcases[n];
 
-	TEST(tee(*(tc->fdin), *(tc->fdout), TEE_TEST_LEN, 0));
+	TEST(sys_tee(*(tc->fdin), *(tc->fdout), TEE_TEST_LEN, 0));
 
 	if (TST_RET != -1) {
 		tst_res(TFAIL, "tee() returned %ld, "

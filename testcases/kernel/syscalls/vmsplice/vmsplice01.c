@@ -46,6 +46,11 @@ static void check_file(void)
 	SAFE_CLOSE(fd_out);
 }
 
+int sys_vmsplice(int fd, const struct iovec *iov, unsigned long nr_segs, unsigned int flags)
+{
+	return tst_syscall(__NR_vmsplice, fd, iov, nr_segs, flags);
+}
+
 static void vmsplice_test(void)
 {
 	int pipes[2];
@@ -73,7 +78,7 @@ static void vmsplice_test(void)
 		if (poll(&pfd, 1, -1) < 0)
 			tst_brk(TBROK | TERRNO, "poll() failed");
 
-		written = vmsplice(pipes[1], &v, 1, 0);
+		written = sys_vmsplice(pipes[1], &v, 1, 0);
 		if (written < 0) {
 			tst_brk(TBROK | TERRNO, "vmsplice() failed");
 		} else {
