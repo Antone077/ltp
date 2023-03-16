@@ -79,6 +79,7 @@
 #include "test.h"
 #include "safe_macros.h"
 #include <sys/resource.h>
+#include "lapi/syscalls.h"
 
 void setup();
 int setup_test(int);
@@ -122,7 +123,7 @@ int main(int ac, char **av)
 				continue;
 			}
 
-			TEST(mlockall(TC[i].flag));
+			TEST(tst_syscall(__NR_mlockall,TC[i].flag));
 
 			/* check return code */
 			if (TEST_RETURN == -1) {

@@ -50,6 +50,7 @@
 #include <unistd.h>
 #include <sys/mman.h>
 #include "test.h"
+#include "lapi/syscalls.h"
 
 void setup();
 void setup1(int);
@@ -102,7 +103,7 @@ int main(int ac, char **av)
 			if (TC[i].setupfunc != NULL)
 				TC[i].setupfunc(TC[i].len);
 
-			TEST(mlock(*(TC[i].addr), TC[i].len));
+			TEST(tst_syscall(__NR_mlock, *(TC[i].addr), TC[i].len));
 
 			/* I'm confused -- given the description above this
 			 * should fail as designed, but this application

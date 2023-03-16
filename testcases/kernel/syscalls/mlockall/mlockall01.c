@@ -68,6 +68,7 @@
 #include <unistd.h>
 #include <sys/mman.h>
 #include "test.h"
+#include "lapi/syscalls.h"
 
 void setup();
 void cleanup();
@@ -104,7 +105,7 @@ int main(int ac, char **av)
 
 		for (i = 0; i < TST_TOTAL; i++) {
 
-			TEST(mlockall(TC[i].flag));
+			TEST(tst_syscall(__NR_mlockall,TC[i].flag));
 
 			/* check return code */
 

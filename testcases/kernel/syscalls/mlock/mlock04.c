@@ -45,6 +45,7 @@ int TST_TOTAL = 1;
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include "lapi/syscalls.h"
 
 int fd, file_len = 40960;
 char *testfile = "test_mlock";
@@ -65,12 +66,12 @@ int main(void)
 		if (buf == MAP_FAILED)
 			tst_brkm(TBROK | TERRNO, cleanup, "mmap");
 
-		if (mlock(buf, file_len) == -1)
+		if (tst_syscall(__NR_mlock,buf, file_len) == -1)
 			tst_brkm(TBROK | TERRNO, cleanup, "mlock");
 
 		tst_resm(TINFO, "locked %d bytes from %p", file_len, buf);
 
-		if (munlock(buf, file_len) == -1)
+		if (tst_syscall(__NR_munlock, buf, file_len) == -1)
 			tst_brkm(TBROK | TERRNO, cleanup, "munlock");
 
 		SAFE_MUNMAP(cleanup, buf, file_len);
