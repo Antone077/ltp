@@ -67,7 +67,7 @@ static size_t sptr_size;
 static void *cptr;
 static size_t cptr_size;
 
-int sys_io_uring_setup(u32 entries, struct io_uring_params *p)
+int sys_io_uring_setup(int entries, struct io_uring_params *p)
 {
 	return tst_syscall(__NR_io_uring_setup, entries, p);
 }
