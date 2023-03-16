@@ -44,6 +44,7 @@
 
 #include "tst_test.h"
 #include "lapi/mmap.h"
+#include "lapi/syscalls.h"
 
 #define MEMCG_PATH "/sys/fs/cgroup/memory/"
 
@@ -304,7 +305,7 @@ static void setup(void)
 {
 	long int swap_total;
 
-	if (access(MEMCG_PATH, F_OK)) {
+	if (tst_syscall(__NR_access,MEMCG_PATH, F_OK)) {
 		tst_brk(TCONF, "'" MEMCG_PATH
 			"' not present, CONFIG_MEMCG missing?");
 	}
