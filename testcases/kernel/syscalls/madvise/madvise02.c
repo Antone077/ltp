@@ -93,7 +93,7 @@ static void tcases_filter(void)
 		switch (tc->advice) {
 		case MADV_DONTNEED:
 #if !defined(UCLINUX)
-			if (tst_mlock(__NR_mlock,file1, st.st_size) < 0)
+			if (tst_syscall(__NR_mlock,file1, st.st_size) < 0)
 				tst_brk(TBROK | TERRNO, "mlock failed");
 			tc->skip = 0;
 #endif /* if !defined(UCLINUX) */
