@@ -67,6 +67,11 @@ static size_t sptr_size;
 static void *cptr;
 static size_t cptr_size;
 
+int sys_io_uring_setup(u32 entries, struct io_uring_params *p)
+{
+	return tst_syscall(__NR_io_uring_setup, entries, p);
+}
+
 static int setup_io_uring_test(struct submitter *s, struct tcase *tc)
 {
 	struct io_sq_ring *sring = &s->sq_ring;
@@ -75,7 +80,7 @@ static int setup_io_uring_test(struct submitter *s, struct tcase *tc)
 
 	memset(&p, 0, sizeof(p));
 	p.flags |= tc->setup_flags;
-	s->ring_fd = io_uring_setup(QUEUE_DEPTH, &p);
+	s->ring_fd = sys_io_uring_setup(QUEUE_DEPTH, &p);
 	if (s->ring_fd != -1) {
 		tst_res(TPASS, "io_uring_setup() passed");
 	} else {
