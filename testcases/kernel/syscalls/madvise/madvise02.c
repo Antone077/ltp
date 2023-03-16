@@ -81,6 +81,11 @@ static struct tcase {
 	{MADV_WIPEONFORK,  "MADV_WIPEONFORK private file backed", &file3, EINVAL, 0},
 };
 
+int sys_mlock(const void *addr, size_t len)
+{
+	return tst_syscall(__NR_mlock, addr, len);
+}
+
 static void tcases_filter(void)
 {
 	unsigned int i;
@@ -91,7 +96,7 @@ static void tcases_filter(void)
 		switch (tc->advice) {
 		case MADV_DONTNEED:
 #if !defined(UCLINUX)
-			if (mlock(file1, st.st_size) < 0)
+			if (sys_mlock(file1, st.st_size) < 0)
 				tst_brk(TBROK | TERRNO, "mlock failed");
 			tc->skip = 0;
 #endif /* if !defined(UCLINUX) */

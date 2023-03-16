@@ -21,6 +21,11 @@
 
 #define ALLOC_SIZE (32 * 1024 * 1024)
 
+int sys_madvise(void *addr, size_t length, int advice)
+{
+	return tst_syscall(__NR_madvise, addr, length, advice);
+}
+
 static void verify_madvise(void)
 {
 	void *p;
@@ -31,7 +36,7 @@ static void verify_madvise(void)
 	TEST(mprotect(p, ALLOC_SIZE, PROT_NONE));
 	if (TST_RET == -1)
 		tst_brk(TBROK | TTERRNO, "mprotect failed");
-	TEST(madvise(p, ALLOC_SIZE, MADV_WILLNEED));
+	TEST(sys_madvise(p, ALLOC_SIZE, MADV_WILLNEED));
 	SAFE_MUNMAP(p, ALLOC_SIZE);
 
 	if (TST_RET == 0) {
