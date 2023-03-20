@@ -27,6 +27,7 @@
 
 #ifdef HAVE_LIBAIO
 #include <libaio.h>
+#include "lapi/syscalls.h"
 
 static io_context_t ctx;
 static io_context_t invalid_ctx;
@@ -77,7 +78,7 @@ static struct tcase {
 
 static void setup(void)
 {
-	TEST(io_setup(1, &ctx));
+	TEST(tst_syscall(__NR_io_setup, 1, &ctx));
 	if (TST_RET == -ENOSYS)
 		tst_brk(TCONF, "io_setup(): AIO not supported by kernel");
 	else if (TST_RET) {
