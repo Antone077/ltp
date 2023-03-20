@@ -73,10 +73,10 @@ static struct tst_test test = {
 	.test = verify_sysinfo,
 	.needs_root = 1,
 	.forks_child = 1,
-	.needs_kconfigs = (const char *[]) {
-		"CONFIG_TIME_NS=y",
-		NULL
-	},
+	// .needs_kconfigs = (const char *[]) {
+	// 	"CONFIG_TIME_NS=y",
+	// 	NULL
+	// },
 	.tags = (const struct tst_tag[]) {
 		{"linux-git", "ecc421e05bab"},
 		{}
