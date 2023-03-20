@@ -18,6 +18,7 @@
 #include "config.h"
 #include "tst_test.h"
 #include "lapi/io_uring.h"
+#include "lapi/syscalls.h"
 
 #define TEST_FILE "test_file"
 

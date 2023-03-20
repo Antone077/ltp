@@ -31,6 +31,7 @@
 #include "tst_kconfig.h"
 #include "tst_test.h"
 #include "lapi/acct.h"
+#include "lapi/syscalls.h"
 
 #define COMMAND		"acct02_helper"
 #define OUTPUT_FILE	"acct_file"
@@ -232,7 +233,7 @@ static void setup(void)
 			avail);
 	}
 
-	TEST(acct(NULL));
+	TEST(tst_syscall(__NR_acct, NULL));
 	if (TST_RET == -1)
 		tst_brk(TBROK | TTERRNO,
 			"acct() system call returned with error");
