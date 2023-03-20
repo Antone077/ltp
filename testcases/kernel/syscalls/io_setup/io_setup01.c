@@ -24,6 +24,7 @@
 #include <unistd.h>
 #include "config.h"
 #include "tst_test.h"
+#include "lapi/syscalls.h"
 
 #ifdef HAVE_LIBAIO
 #include <libaio.h>
@@ -33,10 +34,10 @@ static void verify_failure(unsigned int nr, io_context_t *ctx, int init_val, lon
 	if (ctx)
 		memset(ctx, init_val, sizeof(*ctx));
 
-	TEST(io_setup(nr, ctx));
+	TEST(tst_syscall(__NR_io_setup, nr, ctx));
 	if (TST_RET == 0) {
 		tst_res(TFAIL, "io_setup() passed unexpectedly");
-		io_destroy(*ctx);
+		tst_syscall(__NR_io_destroy, *ctx);
 		return;
 	}
 
@@ -54,7 +55,7 @@ static void verify_success(unsigned int nr, io_context_t *ctx, int init_val)
 {
 	memset(ctx, init_val, sizeof(*ctx));
 
-	TEST(io_setup(nr, ctx));
+	TEST(tst_syscall(__NR_io_setup, nr, ctx));
 	if (TST_RET == -ENOSYS)
 		tst_brk(TCONF | TRERRNO, "io_setup(): AIO not supported by kernel");
 	if (TST_RET != 0) {
@@ -64,7 +65,7 @@ static void verify_success(unsigned int nr, io_context_t *ctx, int init_val)
 	}
 
 	tst_res(TPASS, "io_setup() passed as expected");
-	io_destroy(*ctx);
+	tst_syscall(__NR_io_destroy, *ctx);
 }
 
 static void verify_io_setup(void)

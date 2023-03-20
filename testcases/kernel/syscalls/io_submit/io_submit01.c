@@ -121,7 +121,7 @@ static void verify_io_submit(unsigned int n)
 	struct timespec timeout = { .tv_sec = 1 };
 	int i, ret;
 
-	ret = io_submit(*t->ctx, t->nr, t->iocbs);
+	ret = tst_syscall(__NR_io_submit, *t->ctx, t->nr, t->iocbs);
 
 	if (ret == t->exp_errno) {
 		tst_res(TPASS, "io_submit() with %s failed with %s",
