@@ -46,13 +46,12 @@ static void run(void)
 	fd = SAFE_OPEN("io_pgetevents_file", O_RDWR | O_CREAT, 0644);
 	io_prep_pwrite(&cb, fd, data, 4096, 0);
 
-	tst_syscall(__NR_io_pgetevents, ctx, 1, 1, events, tst_ts_get(&to), &sigmask);
-
-	TEST(io_setup(1, &ctx));
+	TEST(tst_syscall(__NR_io_pgetevents, ctx, 1, 1, events, tst_ts_get(&to), &sigmask));
+	//TEST(io_setup(1, &ctx));
 	if (TST_RET == -ENOSYS)
-		tst_brk(TCONF | TRERRNO, "io_setup(): AIO not supported by kernel");
+		tst_brk(TCONF | TRERRNO, "io_pgetevents(): AIO not supported by kernel");
 	if (TST_RET < 0)
-		tst_brk(TBROK | TRERRNO, "io_setup() failed");
+		tst_brk(TBROK | TRERRNO, "io_pgetevents() failed");
 
 	ret = io_submit(ctx, 1, cbs);
 	if (ret != 1)
