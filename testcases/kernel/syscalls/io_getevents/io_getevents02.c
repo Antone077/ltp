@@ -15,6 +15,7 @@
 
 #include "config.h"
 #include "tst_test.h"
+#include "lapi/syscalls.h"
 
 #ifdef HAVE_LIBAIO
 #include <libaio.h>
@@ -24,7 +25,7 @@ static void run(void)
 	io_context_t ctx;
 
 	memset(&ctx, 0, sizeof(ctx));
-	TEST(io_getevents(ctx, 0, 0, NULL, NULL));
+	TEST(tst_syscall(__NR_io_getevents, ctx, 0, 0, NULL, NULL));
 
 	if (TST_RET == 0) {
 		tst_res(TFAIL, "io_getevents() succeeded unexpectedly");

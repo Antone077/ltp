@@ -15,6 +15,8 @@
 
 #include "config.h"
 #include "tst_test.h"
+#include "lapi/syscalls.h"
+
 
 #ifdef HAVE_LIBAIO
 
@@ -25,7 +27,7 @@ static void run(void)
 	io_context_t ctx;
 
 	memset(&ctx, 0, sizeof(ctx));
-	TEST(io_cancel(ctx, NULL, NULL));
+	TEST(tst_syscall(__NR_io_cancel, ctx, NULL, NULL));
 
 	if (TST_RET == 0) {
 		tst_res(TFAIL, "io_cancel() succeeded unexpectedly");

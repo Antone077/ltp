@@ -9,6 +9,7 @@
 #include "tst_test.h"
 #include "tst_timer.h"
 #include "lapi/io_pgetevents.h"
+#include "lapi/syscalls.h"
 
 #ifdef HAVE_LIBAIO
 static int fd;
@@ -44,6 +45,8 @@ static void run(void)
 
 	fd = SAFE_OPEN("io_pgetevents_file", O_RDWR | O_CREAT, 0644);
 	io_prep_pwrite(&cb, fd, data, 4096, 0);
+
+	tst_syscall(__NR_io_pgetevents, ctx, 1, 1, events, tst_ts_get(&to), &sigmask);
 
 	TEST(io_setup(1, &ctx));
 	if (TST_RET == -ENOSYS)
