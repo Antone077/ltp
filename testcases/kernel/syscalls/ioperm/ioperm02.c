@@ -22,6 +22,7 @@
 #include <pwd.h>
 #include "tst_test.h"
 #include "tst_safe_macros.h"
+#include "lapi/syscalls.h"
 
 #if defined __i386__ || defined(__x86_64__)
 #include <sys/io.h>
@@ -60,7 +61,7 @@ static void cleanup(void)
 
 static void verify_ioperm(unsigned int i)
 {
-	TEST(ioperm(tcases[i].from, tcases[i].num, tcases[i].turn_on));
+	TEST(tst_syscall(__NR_ioperm, tcases[i].from, tcases[i].num, tcases[i].turn_on));
 
 	if ((TST_RET == -1) && (TST_ERR == tcases[i].exp_errno)) {
 		tst_res(TPASS | TTERRNO, "Expected failure for %s, "
@@ -78,7 +79,7 @@ static struct tst_test test = {
 	.test = verify_ioperm,
 	.needs_root = 1,
 	/* ioperm() is restricted under kernel lockdown. */
-	.skip_in_lockdown = 1,
+	//.skip_in_lockdown = 1,
 	.setup = setup,
 	.cleanup = cleanup,
 };

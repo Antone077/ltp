@@ -18,6 +18,7 @@
 #include <unistd.h>
 
 #include "tst_test.h"
+#include "lapi/syscalls.h"
 
 #if defined __i386__ || defined(__x86_64__)
 #include <sys/io.h>
@@ -29,7 +30,7 @@ static void verify_iopl(void)
 
 	for (level = 0; level < total_level; ++level) {
 
-		TEST(iopl(level));
+		TEST(tst_syscall(__NR_iopl, level));
 
 		if (TST_RET == -1) {
 			tst_res(TFAIL | TTERRNO, "iopl() failed for level %d, "
@@ -55,7 +56,7 @@ static struct tst_test test = {
 	.test_all = verify_iopl,
 	.needs_root = 1,
 	/* iopl() is restricted under kernel lockdown. */
-	.skip_in_lockdown = 1,
+	//.skip_in_lockdown = 1,
 	.cleanup = cleanup,
 };
 

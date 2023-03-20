@@ -21,6 +21,7 @@
 #include <pwd.h>
 #include "tst_test.h"
 #include "tst_safe_macros.h"
+#include "lapi/syscalls.h"
 
 #if defined __i386__ || defined(__x86_64__)
 #include <sys/io.h>
@@ -36,7 +37,7 @@ static struct tcase {
 
 static void verify_iopl(unsigned int i)
 {
-	TEST(iopl(tcases[i].level));
+	TEST(tst_syscall(__NR_iopl, tcases[i].level));
 
 	if ((TST_RET == -1) && (TST_ERR == tcases[i].exp_errno)) {
 		tst_res(TPASS | TTERRNO,
@@ -67,7 +68,7 @@ static struct tst_test test = {
 	.test = verify_iopl,
 	.needs_root = 1,
 	/* iopl() is restricted under kernel lockdown. */
-	.skip_in_lockdown = 1,
+	//.skip_in_lockdown = 1,
 	.setup = setup,
 	.cleanup = cleanup,
 };

@@ -19,6 +19,8 @@
 #if defined __i386__ || defined(__x86_64__)
 #include <sys/io.h>
 
+#include "lapi/syscalls.h"
+
 unsigned long io_addr;
 #define NUM_BYTES 3
 #ifndef IO_BITMAP_BITS
@@ -27,7 +29,7 @@ unsigned long io_addr;
 
 static void verify_ioperm(void)
 {
-	TEST(ioperm(io_addr, NUM_BYTES, 1));
+	TEST(tst_syscall(__NR_ioperm, io_addr, NUM_BYTES, 1));
 
 	if (TST_RET == -1) {
 		tst_res(TFAIL | TTERRNO, "ioperm() failed for port address "
@@ -58,7 +60,7 @@ static struct tst_test test = {
 	.test_all = verify_ioperm,
 	.needs_root = 1,
 	/* ioperm() is restricted under kernel lockdown. */
-	.skip_in_lockdown = 1,
+	//.skip_in_lockdown = 1,
 	.setup = setup,
 	.cleanup = cleanup,
 };
