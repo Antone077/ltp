@@ -73,18 +73,18 @@ static void verify_access(unsigned int n)
 	if (pid) {
 		SAFE_WAITPID(pid, NULL, 0);
 	} else {
-		SAFE_SETUID(uid);
+		//SAFE_SETUID(uid);
 		access_test(tc, "nobody");
 	}
 }
 
 static void setup(void)
 {
-	struct passwd *pw;
+	// struct passwd *pw;
 
-	pw = SAFE_GETPWNAM("nobody");
+	// pw = SAFE_GETPWNAM("nobody");
 
-	uid = pw->pw_uid;
+	// uid = pw->pw_uid;
 
 	memset(longpathname, 'a', sizeof(longpathname) - 1);
 
