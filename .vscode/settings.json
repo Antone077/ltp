@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "types.h": "c",
-        "capability.h": "c"
+        "capability.h": "c",
+        "quotactl_fmt_var.h": "c",
+        "quotactl.h": "c",
+        "xqm.h": "c"
     }
 }

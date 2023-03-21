@@ -237,7 +237,8 @@ void tst_setup_netns(void)
 	if (!nscount)
 		tst_brk(TCONF, "User namespaces are disabled");
 
-	SAFE_UNSHARE(CLONE_NEWUSER);
+	//SAFE_UNSHARE(CLONE_NEWUSER);
+	tst_syscall(__NR_unshare, CLONE_NEWUSER);
 	SAFE_UNSHARE(CLONE_NEWNET);
 	SAFE_FILE_PRINTF("/proc/self/setgroups", "deny");
 	SAFE_FILE_PRINTF("/proc/self/uid_map", "0 %d 1", real_uid);

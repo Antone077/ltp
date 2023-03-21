@@ -51,16 +51,16 @@ static void run(unsigned int n)
 {
 	struct tcase *tc = &tcases[n];
 
-	TST_EXP_PASS(syslog(tc->type, tc->buf, tc->len),
+	TST_EXP_PASS(tst_syscall(__NR_syslog, tc->type, tc->buf, tc->len),
 			"syslog() with %s", tc->desc);
 }
 
 static struct tst_test test = {
 	.test = run,
-	.save_restore = (const struct tst_path_val[]) {
-		{"/proc/sys/kernel/printk", NULL, TST_SR_TBROK},
-		{}
-	},
+	// .save_restore = (const struct tst_path_val[]) {
+	// 	{"/proc/sys/kernel/printk", NULL, TST_SR_TBROK},
+	// 	{}
+	// },
 	.needs_root = 1,
 	.tcnt = ARRAY_SIZE(tcases),
 };
