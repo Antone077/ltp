@@ -12,6 +12,7 @@
 #include <sys/types.h>
 #include <pwd.h>
 #include "tst_test.h"
+#include "lapi/syscalls.h"
 
 static uid_t uid;
 
@@ -35,7 +36,8 @@ static void verify_access(unsigned int n)
 	             "invalid address as root");
 
 	/* test as nobody */
-	pid = SAFE_FORK();
+	//pid = SAFE_FORK();
+	pid = tst_syscall(__NR_fork);
 	if (pid) {
 		SAFE_WAITPID(pid, NULL, 0);
 	} else {

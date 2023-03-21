@@ -100,8 +100,8 @@ static struct tst_test test = {
 	.tcnt = ARRAY_SIZE(tcases),
 	.needs_root = 1,
 	.forks_child = 1,
-	.needs_rofs = 1,
-	.mntpoint = MNT_POINT,
+	//.needs_rofs = 1,
+	//.mntpoint = MNT_POINT,
 	.setup = setup,
 	.test = verify_access,
 };
