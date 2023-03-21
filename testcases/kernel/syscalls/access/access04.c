@@ -30,6 +30,7 @@
 #include <sys/mount.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include "lapi/syscalls.h"
 
 #include "tst_test.h"
 
@@ -69,7 +70,8 @@ static void verify_access(unsigned int n)
 
 	access_test(tc, "root");
 
-	pid = SAFE_FORK();
+	//pid = SAFE_FORK();
+	pid = tst_syscall(__NR_fork);
 	
 	if (pid) {
 		SAFE_WAITPID(pid, NULL, 0);

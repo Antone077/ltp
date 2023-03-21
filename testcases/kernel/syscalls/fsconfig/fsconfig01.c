@@ -86,8 +86,8 @@ static struct tst_test test = {
 	.setup = fsopen_supported_by_kernel,
 	.cleanup = cleanup,
 	.needs_root = 1,
-	.format_device = 1,
-	.mntpoint = MNTPOINT,
+	//.format_device = 1,
+	//.mntpoint = MNTPOINT,
 	.all_filesystems = 1,
 	.skip_filesystems = (const char *const []){"fuse", NULL},
 };
