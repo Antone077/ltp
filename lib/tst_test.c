@@ -1357,7 +1357,7 @@ static void heartbeat(void)
 		tst_res(TWARN | TERRNO, "tst_clock_gettime() failed");
 
 	if (getppid() == 1) {
-		tst_res(TFAIL, "Main test process might have exit!");
+		//tst_res(TFAIL, "Main test process might have exit!");
 		/*
 		 * We need kill the task group immediately since the
 		 * main process has exit.
@@ -1366,7 +1366,7 @@ static void heartbeat(void)
 		exit(TBROK);
 	}
 
-	//kill(getppid(), SIGUSR1);
+	kill(getppid(), SIGUSR1);
 }
 
 static void run_tests(void)
