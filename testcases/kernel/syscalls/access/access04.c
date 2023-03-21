@@ -70,6 +70,7 @@ static void verify_access(unsigned int n)
 	access_test(tc, "root");
 
 	pid = SAFE_FORK();
+	
 	if (pid) {
 		SAFE_WAITPID(pid, NULL, 0);
 	} else {

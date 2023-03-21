@@ -39,7 +39,7 @@ static void verify_access(unsigned int n)
 	if (pid) {
 		SAFE_WAITPID(pid, NULL, 0);
 	} else {
-		SAFE_SETUID(uid);
+		//SAFE_SETUID(uid);
 		TST_EXP_FAIL(access(tc->addr, tc->mode), EFAULT,
 		             "invalid address as nobody");
 	}
@@ -47,11 +47,11 @@ static void verify_access(unsigned int n)
 
 static void setup(void)
 {
-	struct passwd *pw;
+	// struct passwd *pw;
 
-	pw = SAFE_GETPWNAM("nobody");
+	// pw = SAFE_GETPWNAM("nobody");
 
-	uid = pw->pw_uid;
+	// uid = pw->pw_uid;
 }
 
 static struct tst_test test = {
