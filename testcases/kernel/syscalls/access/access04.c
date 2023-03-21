@@ -70,23 +70,22 @@ static void verify_access(unsigned int n)
 	access_test(tc, "root");
 
 	pid = SAFE_FORK();
-	//pid = tst_syscall(__NR_fork);
 	
 	if (pid) {
 		SAFE_WAITPID(pid, NULL, 0);
 	} else {
-		//SAFE_SETUID(uid);
+		SAFE_SETUID(uid);
 		access_test(tc, "nobody");
 	}
 }
 
 static void setup(void)
 {
-	// struct passwd *pw;
+	struct passwd *pw;
 
-	// pw = SAFE_GETPWNAM("nobody");
+	pw = SAFE_GETPWNAM("nobody");
 
-	// uid = pw->pw_uid;
+	uid = pw->pw_uid;
 
 	memset(longpathname, 'a', sizeof(longpathname) - 1);
 
@@ -101,8 +100,8 @@ static struct tst_test test = {
 	.tcnt = ARRAY_SIZE(tcases),
 	.needs_root = 1,
 	.forks_child = 1,
-	//.needs_rofs = 1,
-	//.mntpoint = MNT_POINT,
+	.needs_rofs = 1,
+	.mntpoint = MNT_POINT,
 	.setup = setup,
 	.test = verify_access,
 };

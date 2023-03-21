@@ -54,5 +54,5 @@ static struct tst_test test = {
 	.test = run,
 	.setup = setup,
 	.needs_root = 1,
-	.needs_device = 1,
+	//.needs_device = 1,
 };
