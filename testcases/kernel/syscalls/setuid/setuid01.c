@@ -16,6 +16,7 @@
 #include <sys/types.h>
 #include "tst_test.h"
 #include "compat_tst_16.h"
+#include "lapi/syscalls.h"
 
 static void verify_setuid(void)
 {
@@ -24,7 +25,14 @@ static void verify_setuid(void)
 	uid = getuid();
 	UID16_CHECK(uid, setuid);
 
-	TST_EXP_PASS(SETUID(uid), "setuid(%d)", uid);
+	TEST(tst_syscall(__NR_setuid, uid));
+
+	//TST_EXP_PASS(SETUID(uid), "setuid(%d)", uid);
+	if(TST_RET < 0){
+		tst_brk(TBROK | TTERRNO, "SetUid not supported in this ARCH");
+	}else{
+		TST_EXP_PASS(SETUID(uid), "setuid(%d)", uid);
+	}
 }
 
 static struct tst_test test = {
