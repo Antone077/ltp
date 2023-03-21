@@ -73,8 +73,8 @@ static struct tst_test test = {
 	.test = run,
 	.setup = fsopen_supported_by_kernel,
 	.needs_root = 1,
-	.format_device = 1,
-	.mntpoint = MNTPOINT,
+	//.format_device = 1,
+	//.mntpoint = MNTPOINT,
 	.all_filesystems = 1,
 	.skip_filesystems = (const char *const []){"fuse", NULL},
 };
