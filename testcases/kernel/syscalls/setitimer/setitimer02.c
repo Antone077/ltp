@@ -22,10 +22,10 @@
 
 static struct itimerval *value, *ovalue;
 
-static int sys_setitimer(int which, void *new_value, void *old_value)
-{
-	return tst_syscall(__NR_setitimer, which, new_value, old_value);
-}
+// static int sys_setitimer(int which, void *new_value, void *old_value)
+// {
+// 	return tst_syscall(__NR_setitimer, which, new_value, old_value);
+// }
 
 static void verify_setitimer(unsigned int i)
 {
@@ -34,7 +34,7 @@ static void verify_setitimer(unsigned int i)
 		TST_EXP_FAIL(sys_setitimer(ITIMER_REAL, value, (void *)-1), EFAULT);
 		break;
 	case 1:
-		TST_EXP_FAIL(sys_setitimer(ITIMER_VIRTUAL, value, (void *)-1), EFAULT);
+		TST_EXP_FAIL(setitimer(ITIMER_VIRTUAL, value, (void *)-1), EFAULT);
 		break;
 	case 2:
 		TST_EXP_FAIL(sys_setitimer(-ITIMER_PROF, value, ovalue), EINVAL);
