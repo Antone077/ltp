@@ -33,10 +33,10 @@ static struct tcase {
        {-ITIMER_PROF,   &value,   EINVAL},
 };
 
-static int sys_getitimer(int which, void *curr_value)
-{
-        return tst_syscall(__NR_getitimer, which, curr_value);
-}
+// static int sys_getitimer(int which, void *curr_value)
+// {
+//         return tst_syscall(__NR_getitimer, which, curr_value);
+// }
 
 static void setup(void)
 {
@@ -48,7 +48,7 @@ static void verify_getitimer(unsigned int i)
 {
         struct tcase *tc = &tcases[i];
 
-        TST_EXP_FAIL(sys_getitimer(tc->which, *(tc->val)), tc->exp_errno);
+        TST_EXP_FAIL(getitimer(tc->which, *(tc->val)), tc->exp_errno);
 }
 
 static void cleanup(void)
