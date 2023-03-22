@@ -31,13 +31,13 @@ static void verify_setitimer(unsigned int i)
 {
 	switch (i) {
 	case 0:
-		TST_EXP_FAIL(sys_setitimer(ITIMER_REAL, value, (void *)-1), EFAULT);
+		TST_EXP_FAIL(setitimer(ITIMER_REAL, value, (void *)-1), EFAULT);
 		break;
 	case 1:
 		TST_EXP_FAIL(setitimer(ITIMER_VIRTUAL, value, (void *)-1), EFAULT);
 		break;
 	case 2:
-		TST_EXP_FAIL(sys_setitimer(-ITIMER_PROF, value, ovalue), EINVAL);
+		TST_EXP_FAIL(setitimer(-ITIMER_PROF, value, ovalue), EINVAL);
 		break;
 	}
 }
