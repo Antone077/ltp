@@ -14,6 +14,8 @@
  */
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include "tst_test.h"
 
 static void run(void)
@@ -21,7 +23,8 @@ static void run(void)
 	pid_t pid;
 	int status;
 
-	pid = SAFE_FORK();
+	//pid = SAFE_FORK();
+	pid = vfork();
 	if (!pid) {
 		raise(SIGALRM);
 		exit(0);
