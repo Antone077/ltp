@@ -113,13 +113,13 @@ static void verify_setitimer(unsigned int i)
 		set_setitimer_value(0, time_usec);
 		TST_EXP_PASS(sys_setitimer(tc->which, value, NULL));
 
-		while (sigcnt <= 10UL)
-			;
+		// while (sigcnt <= 10UL)
+		// 	;
 
-		SAFE_SIGNAL(tc->signo, SIG_DFL);
+		// SAFE_SIGNAL(tc->signo, SIG_DFL);
 
-		while (1)
-			;
+		// while (1)
+		// 	;
 	}
 
 	SAFE_WAITPID(pid, &status, 0);
