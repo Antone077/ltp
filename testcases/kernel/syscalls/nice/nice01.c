@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <sys/resource.h>
 #include "tst_test.h"
+#include "lapi/syscalls.h"
 
 #define MIN_PRIO        -20
 
@@ -32,7 +33,7 @@ static void verify_nice(unsigned int i)
 
 	orig_nice = SAFE_GETPRIORITY(PRIO_PROCESS, 0);
 
-	TEST(nice(inc));
+	TEST(tst_syscall(__NR_nice, inc));
 
 	exp_nice = MAX(MIN_PRIO, (orig_nice + inc));
 

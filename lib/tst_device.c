@@ -96,6 +96,10 @@ int tst_find_free_loopdev(char *path, size_t path_len)
 		}
 		tst_resm(TINFO, "Couldn't find free loop device");
 		return -1;
+	}else{
+		tst_resm(TINFO, "open loop_control file failed");
+
+		return -1;
 	}
 
 	switch (errno) {
