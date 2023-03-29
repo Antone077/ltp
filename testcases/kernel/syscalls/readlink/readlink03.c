@@ -93,7 +93,7 @@ static void setup(void)
 	struct passwd *pwent;
 
 	pwent = SAFE_GETPWNAM("nobody");
-	SAFE_SETEUID(pwent->pw_uid);
+	SAFE_SETUID(pwent->pw_uid);
 
 	SAFE_MKDIR(DIR_TEMP, 0777);
 	SAFE_TOUCH(TEST_FILE1, 0666, NULL);
