@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include "tst_test.h"
 #include "lapi/pidfd.h"
+#include "lapi/syscalls.h"
 
 static int pidfd = -1;
 
@@ -22,7 +23,7 @@ static void run(void)
 {
 	int flag;
 
-	TST_EXP_FD_SILENT(pidfd_open(getpid(), 0), "pidfd_open(getpid(), 0)");
+	TST_EXP_FD_SILENT(tst_syscall(__NR_pidfd_open, getpid(), 0), "pidfd_open(getpid(), 0)");
 
 	pidfd = TST_RET;
 	flag = SAFE_FCNTL(pidfd, F_GETFD);
