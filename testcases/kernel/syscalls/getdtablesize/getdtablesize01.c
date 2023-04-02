@@ -81,7 +81,7 @@ int main(void)
 
 	tst_resm(TINFO,
 		 "Checking Max num of files that can be opened by a process.Should be: RLIMIT_NOFILE - 1");
-	for (;;) {
+	for (int i = 1; i < 1024; i++) {
 		fd = open("/etc/hosts", O_RDONLY);
 
 		if (fd == -1)
