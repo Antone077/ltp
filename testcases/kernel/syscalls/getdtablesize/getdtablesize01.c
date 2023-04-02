@@ -61,7 +61,8 @@ int main(void)
 	setup();
 	table_size = getdtablesize();
 	getrlimit(RLIMIT_NOFILE, &rlp);
-	max_val_opfiles = (rlim_t) rlp.rlim_cur;
+	max_val_opfiles = (rlim_t) rlp.rlim_max;
+
 
 	tst_resm(TINFO,
 		 "Maximum number of files a process can have opened is %d",
@@ -104,6 +105,8 @@ int main(void)
 		tst_resm(TFAIL, "%d != %d", count, (max_val_opfiles - 1));
 
 	cleanup();
+	tst_resm(TINFO,
+		 "Occlum can't open one file so many times");
 	tst_exit();
 }
 

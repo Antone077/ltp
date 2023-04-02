@@ -4,6 +4,7 @@
         "capability.h": "c",
         "quotactl_fmt_var.h": "c",
         "quotactl.h": "c",
-        "xqm.h": "c"
+        "xqm.h": "c",
+        "inotify.h": "c"
     }
 }
