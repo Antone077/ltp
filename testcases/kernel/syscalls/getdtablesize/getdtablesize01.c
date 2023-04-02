@@ -61,7 +61,7 @@ int main(void)
 	setup();
 	table_size = getdtablesize();
 	getrlimit(RLIMIT_NOFILE, &rlp);
-	max_val_opfiles = (rlim_t) rlp.rlim_max;
+	max_val_opfiles = (rlim_t) rlp.rlim_cur;
 
 
 	tst_resm(TINFO,
