@@ -98,6 +98,10 @@ int main(int ac, char **av)
 			if (TC[i].setupfunc != NULL)
 				TC[i].setupfunc(&TC[i]);
 
+
+			
+			tst_resm(TINFO, "Len is %d \n", TC[i].len);
+
 			TEST(tst_syscall(__NR_mprotect, TC[i].addr, TC[i].len, TC[i].prot));
 
 			if (TEST_RETURN != -1) {
