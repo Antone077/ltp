@@ -62,13 +62,13 @@ static void test_mmap(void)
 	str_len = strlen(str);
 
 	SAFE_WRITE(SAFE_WRITE_ALL, fd_file1, str, str_len);
-	mapped_address = SAFE_MMAP(0x20000000, str_len, PROT_WRITE ,
+	mapped_address = SAFE_MMAP(0x20000, str_len, PROT_WRITE ,
 				   MAP_FIXED | MAP_PRIVATE, fd_file1, 0);
 
 	SAFE_WRITE(SAFE_WRITE_ALL, fd_file2, str, str_len);
 
 	address = mmap(mapped_address, str_len, PROT_WRITE,
-			MAP_PRIVATE | MAP_FIXED_NOREPLACE, fd_file2, 0);
+			MAP_PRIVATE | MAP_FIXED, fd_file2, 0);
 			
 	if (address == MAP_FAILED && errno == EEXIST)
 		tst_res(TPASS, "mmap set errno to EEXIST as expected");
