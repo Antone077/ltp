@@ -59,6 +59,7 @@ static size_t page_sz;
 static size_t file_sz;
 static int fildes;
 static char cmd_buffer[BUFSIZ];
+static char cmd_cat_buffer[BUFSIZ];
 
 static void setup(void);
 static void cleanup(void);
@@ -122,6 +123,7 @@ int main(int ac, char **av)
 		 * temporary file.  The pattern should not be
 		 * found and the return value should be 1.
 		 */
+		system(cmd_cat_buffer);
 		if (system(cmd_buffer) != 0) {
 			tst_resm(TPASS,
 				 "Functionality of mmap() successful");
@@ -158,6 +160,7 @@ static void setup(void)
 		tst_brkm(TFAIL | TERRNO, cleanup,
 			 "getcwd failed to get current working directory");
 	}
+	printf("path_name = %s\n", Path_name);
 
 	/* Creat a temporary file used for mapping */
 	if ((fildes = open(TEMPFILE, O_RDWR | O_CREAT, 0666)) < 0) {
@@ -185,6 +188,8 @@ static void setup(void)
 
 	/* Create the command which will be executed in the test */
 	sprintf(cmd_buffer, "grep XYZ %s/%s > /dev/null", Path_name, TEMPFILE);
+
+	sprintf(cmd_cat_buffer, "cat %s/%s > ~/a.txt", Path_name, TEMPFILE);
 }
 
 static void cleanup(void)
