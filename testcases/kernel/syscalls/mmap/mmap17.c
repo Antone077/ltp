@@ -62,7 +62,7 @@ static void test_mmap(void)
 	str_len = strlen(str);
 
 	SAFE_WRITE(SAFE_WRITE_ALL, fd_file1, str, str_len);
-	mapped_address = SAFE_MMAP(0x200, str_len, PROT_WRITE ,
+	mapped_address = SAFE_MMAP(0x20000, str_len, PROT_WRITE ,
 				   MAP_FIXED | MAP_PRIVATE, fd_file1, 0);
 
 	SAFE_WRITE(SAFE_WRITE_ALL, fd_file2, str, str_len);
