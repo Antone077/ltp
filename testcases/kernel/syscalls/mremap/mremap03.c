@@ -132,10 +132,6 @@ int main(int ac, char **av)
 			tst_resm(TPASS, "mremap() Fails, 'old region not "
 				 "mapped', errno %d", TEST_ERRNO);
 		} else if(addr != MAP_FAILED) {
-			tst_resm(TINFO, "mremap can pass this tested");
-			//tst_resm(TFAIL, "mremap() Fails, "
-				 //"'Unexpected errno %d", TEST_ERRNO);
-		}else {
 			tst_resm(TFAIL, "mremap() Fails, "
 				 "'Unexpected errno %d", TEST_ERRNO);
 		}

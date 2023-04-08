@@ -107,6 +107,7 @@ int main(int ac, char **av)
 		addr[file_sz + 1] = 'Y';
 		addr[file_sz + 2] = 'Z';
 
+		printf("addr = %s\n", addr);
 		/*
 		 * Synchronize the mapped memory region
 		 * with the file.
