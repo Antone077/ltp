@@ -100,13 +100,13 @@ int main(int ac, char **av)
 				 "mapped memory area contains invalid "
 				 "data");
 		}
-
 		/*
 		 * Initialize memory beyond file size
 		 */
 		addr[file_sz] = 'X';
 		addr[file_sz + 1] = 'Y';
 		addr[file_sz + 2] = 'Z';
+
 
 		printf("addr = %s\n", addr);
 		/*
@@ -160,7 +160,7 @@ static void setup(void)
 		tst_brkm(TFAIL | TERRNO, cleanup,
 			 "getcwd failed to get current working directory");
 	}
-	printf("path_name = %s\n", Path_name);
+	//printf("path_name = %s\n", Path_name);
 
 	/* Creat a temporary file used for mapping */
 	if ((fildes = open(TEMPFILE, O_RDWR | O_CREAT, 0666)) < 0) {
@@ -189,7 +189,7 @@ static void setup(void)
 	/* Create the command which will be executed in the test */
 	sprintf(cmd_buffer, "grep XYZ %s/%s > /dev/null", Path_name, TEMPFILE);
 
-	sprintf(cmd_cat_buffer, "cat %s/%s > ~/a.txt", Path_name, TEMPFILE);
+	sprintf(cmd_cat_buffer, "cat %s/%s", Path_name, TEMPFILE);
 }
 
 static void cleanup(void)
