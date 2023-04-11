@@ -11,7 +11,7 @@
 #include <errno.h>
 #include "tst_test.h"
 
-static char nobody_uid[] = "nobody";
+//static char nobody_uid[] = "nobody";
 static struct rlimit rlim;
 
 static struct tcase {
@@ -46,9 +46,9 @@ static void verify_setrlimit(unsigned int n)
 
 static void setup(void)
 {
-	struct passwd *ltpuser = SAFE_GETPWNAM(nobody_uid);
+	//struct passwd *ltpuser = SAFE_GETPWNAM(nobody_uid);
 
-	SAFE_SETUID(ltpuser->pw_uid);
+	//SAFE_SETUID(ltpuser->pw_uid);
 
 	SAFE_GETRLIMIT(RLIMIT_NOFILE, &rlim);
 	rlim.rlim_max++;

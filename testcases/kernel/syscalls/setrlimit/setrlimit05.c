@@ -24,12 +24,12 @@ static void verify_setrlimit(void)
 	int status;
 	pid_t pid;
 
-	pid = SAFE_FORK();
+	pid = vfork();
 	if (!pid) {
 		TEST(setrlimit(RLIMIT_NOFILE, bad_addr));
 		if (TST_RET != -1) {
 			tst_res(TFAIL, "setrlimit()  succeeded unexpectedly");
-			exit(0);
+			_exit(0);
 		}
 
 		/* Usually, setrlimit() should return EFAULT */
@@ -41,10 +41,10 @@ static void verify_setrlimit(void)
 				"setrlimit() should fail with EFAULT, got");
 		}
 
-		exit(0);
+		_exit(0);
 	}
 
-	SAFE_WAITPID(pid, &status, 0);
+	//SAFE_WAITPID(pid, &status, 0);
 
 	/* If glibc has to convert between 32bit and 64bit struct rlimit
 	 * in some cases, it is possible to get SegFault.

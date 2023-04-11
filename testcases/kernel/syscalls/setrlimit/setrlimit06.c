@@ -56,7 +56,7 @@ static void verify_setrlimit(void)
 
 	*end = 0;
 
-	pid = SAFE_FORK();
+	pid = vfork();
 	if (!pid) {
 		struct rlimit rlim = {
 			.rlim_cur = 1,
@@ -67,12 +67,13 @@ static void verify_setrlimit(void)
 		if (TST_RET == -1) {
 			tst_res(TFAIL | TTERRNO,
 				"setrlimit(RLIMIT_CPU) failed");
-			exit(1);
+			_exit(1);
 		}
 
 		alarm(20);
 
 		while (1);
+		_exit(0);
 	}
 
 	SAFE_WAITPID(pid, &status, 0);
