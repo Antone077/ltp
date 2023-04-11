@@ -80,7 +80,6 @@ pid_t tst_vfork(void);
 #else
 # define FORK_OR_VFORK			tst_fork
 # define MAP_PRIVATE_EXCEPT_UCLINUX	MAP_PRIVATE
-pid_t tst_vfork(void);
 #endif
 
 /*
