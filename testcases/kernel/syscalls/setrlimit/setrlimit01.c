@@ -113,79 +113,86 @@ static void test1(void)
  */
 static void test2(void)
 {
-	/*
-	 * Since we would be altering the filesize in the child,
-	 * we need to "sync", ie. fflush the parent's write buffers
-	 * here.  This is because the child will inherit the parent's
-	 * write buffer, and while exiting it would try to fflush it.
-	 * Since its filesize is truncated to only 10 bytes, the
-	 * fflush attempt would fail, and the child would exit with
-	 * an wired value!  So, it is essential to fflush the parent's
-	 * write buffer HERE
-	 */
-	int pipefd[2];
-	fflush(stdout);
-	SAFE_PIPE(NULL, pipefd);
+    /*
+     * Since we would be altering the filesize in the child,
+     * we need to "sync", ie. fflush the parent's write buffers
+     * here. This is because the child will inherit the parent's
+     * write buffer, and while exiting it would try to fflush it.
+     * Since its filesize is truncated to only 10 bytes, the
+     * fflush attempt would fail, and the child would exit with
+     * an wired value! So, it is essential to fflush the parent's
+     * write buffer HERE
+     */
+    int pipefd[2];
+    fflush(stdout);
+    SAFE_PIPE(NULL, pipefd);
 
-	/*
-	 * Spawn a child process, and reduce the filesize to
-	 * 10 by calling setrlimit(). We can't do this in the
-	 * parent, because the parent needs a bigger filesize as its
-	 * output will be saved to the logfile (instead of stdout)
-	 * when the testcase (parent) is run from the driver.
-	 */
-	pid = FORK_OR_VFORK();
-	if (pid == -1)
-		tst_brkm(TBROK, cleanup, "fork() failed");
+    /*
+     * Spawn a child process, and reduce the filesize to
+     * 10 by calling setrlimit(). We can't do this in the
+     * parent, because the parent needs a bigger filesize as its
+     * output will be saved to the logfile (instead of stdout)
+     * when the testcase (parent) is run from the driver.
+     */
+    pid = vfork();
+    if (pid == -1)
+        tst_brkm(TBROK, cleanup, "vfork() failed");
 
-	if (pid == 0) {
-		close(pipefd[0]);	/* close unused read end */
-		rlim.rlim_cur = 10;
-		rlim.rlim_max = 10;
-		if ((setrlimit(RLIMIT_FSIZE, &rlim)) == -1)
-			exit(1);
+    if (pid == 0)
+    {
+        close(pipefd[0]); /* close unused read end */
+        volatile struct rlimit rlim;
+        rlim.rlim_cur = 10;
+        rlim.rlim_max = 10;
+        if ((setrlimit(RLIMIT_FSIZE, &rlim)) == -1)
+            _exit(1);
 
-		fd = creat(filename, 0644);
-		if (fd < 0)
-			exit(2);
+        fd = creat(filename, 0644);
+        if (fd < 0)
+            _exit(2);
 
-		bytes = write(fd, buf, 26);
-		if (bytes != 10) {
-			if (write(pipefd[1], &bytes, sizeof(bytes)) < (long)sizeof(bytes)) {
-				perror("child: write to pipe failed");
-			}
-			close(pipefd[1]);	/* EOF */
-			exit(3);
-		}
-		exit(0);	/* success */
-	}
+        bytes = write(fd, buf, 26);
+        if (bytes != 10)
+        {
+            if (write(pipefd[1], &bytes, sizeof(bytes)) < (long)sizeof(bytes))
+            {
+                perror("child: write to pipe failed");
+            }
+            close(pipefd[1]); /* EOF */
+            _exit(3);
+        }
+        _exit(0); /* success */
+    }
 
-	/* parent */
-	SAFE_WAITPID(cleanup, pid, &status, 0);
+    /* parent */
+    SAFE_WAITPID(cleanup, pid, &status, 0);
 
-	switch (WEXITSTATUS(status)) {
-	case 0:
-		tst_resm(TPASS, "RLIMIT_FSIZE test PASSED");
-		break;
-	case 1:
-		tst_resm(TFAIL, "setrlimit failed to set "
-			 "RLIMIT_FSIZE, errno = %d", errno);
-		break;
-	case 2:
-		tst_resm(TFAIL, "creating testfile failed");
-		break;
-	case 3:
-		close(pipefd[1]);	/* close unused write end */
-		if (read(pipefd[0], &bytes, sizeof(bytes)) < (long)sizeof(bytes))
-			tst_resm(TFAIL, "parent: reading pipe failed");
+    switch (WEXITSTATUS(status))
+    {
+    case 0:
+        tst_resm(TPASS, "RLIMIT_FSIZE test PASSED");
+        break;
+    case 1:
+        tst_resm(TFAIL, "setrlimit failed to set "
+                        "RLIMIT_FSIZE, errno = %d",
+                 errno);
+        break;
+    case 2:
+        tst_resm(TFAIL, "creating testfile failed");
+        break;
+    case 3:
+        close(pipefd[1]); /* close unused write end */
+        if (read(pipefd[0], &bytes, sizeof(bytes)) < (long)sizeof(bytes))
+            tst_resm(TFAIL, "parent: reading pipe failed");
 
-		close(pipefd[0]);
-		tst_resm(TFAIL, "setrlimit failed, expected "
-			 "10 got %d", bytes);
-		break;
-	default:
-		tst_resm(TFAIL, "child returned bad exit status");
-	}
+        close(pipefd[0]);
+        tst_resm(TFAIL, "setrlimit failed, expected "
+                        "10 got %d",
+                 bytes);
+        break;
+    default:
+        tst_resm(TFAIL, "child returned bad exit status");
+    }
 }
 
 /*
