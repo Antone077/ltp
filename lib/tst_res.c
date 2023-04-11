@@ -427,7 +427,7 @@ pid_t tst_fork(void)
 
 	tst_old_flush();
 
-	child = vfork();
+	child = fork();
 	if (child == 0)
 		T_exitval = 0;
 
