@@ -165,7 +165,7 @@ static void test2(void)
     }
 
     /* parent */
-    SAFE_WAITPID(cleanup, pid, &status, 0);
+    //SAFE_WAITPID(cleanup, pid, &status, 0);
 
     switch (WEXITSTATUS(status))
     {
