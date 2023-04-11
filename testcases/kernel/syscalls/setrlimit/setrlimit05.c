@@ -49,7 +49,7 @@ static void verify_setrlimit(void)
 		_exit(0);
 	}
 
-	//SAFE_WAITPID(pid, &status, 0);
+	SAFE_WAITPID(pid, &status, 0);
 
 	/* If glibc has to convert between 32bit and 64bit struct rlimit
 	 * in some cases, it is possible to get SegFault.
@@ -72,6 +72,6 @@ static void setup(void)
 
 static struct tst_test test = {
 	.test_all = verify_setrlimit,
-	//.forks_child = 1,
+	.forks_child = 1,
 	.setup = setup,
 };

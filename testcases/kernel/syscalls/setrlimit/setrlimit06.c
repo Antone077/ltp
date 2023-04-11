@@ -57,6 +57,8 @@ static void verify_setrlimit(void)
 	*end = 0;
 
 	pid = vfork();
+	if (pid == -1)
+    	tst_brk(TBROK, "vfork() failed");
 	if (!pid) {
 		struct rlimit rlim = {
 			.rlim_cur = 1,
