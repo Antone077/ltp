@@ -16,6 +16,7 @@
 #include <stdlib.h>
 
 #include "tst_test.h"
+#include "test.h"
 
 static void *bad_addr;
 
@@ -24,7 +25,7 @@ static void verify_setrlimit(void)
 	int status;
 	pid_t pid;
 
-	pid = vfork();
+	pid = tst_vfork();
 	if (pid == -1)
     	tst_brk(TBROK, "vfork() failed");
 

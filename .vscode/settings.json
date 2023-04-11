@@ -5,6 +5,8 @@
         "quotactl_fmt_var.h": "c",
         "quotactl.h": "c",
         "xqm.h": "c",
-        "inotify.h": "c"
+        "inotify.h": "c",
+        "tst_test.h": "c",
+        "test.h": "c"
     }
 }
