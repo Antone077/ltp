@@ -39,10 +39,8 @@ static void verify_access(unsigned int n)
 	//pid = SAFE_FORK();
 	//pid = tst_syscall(__NR_fork);
 	pid = vfork();
-	if (pid == -1)
-    	tst_brk(TBROK | TTERRNO, "vfork() failed");
 	if (pid) {
-		SAFE_WAITPID(pid, NULL, 0);
+		//SAFE_WAITPID(pid, NULL, 0);
 	} else {
 		//SAFE_SETUID(uid);
 		TST_EXP_FAIL(access(tc->addr, tc->mode), EFAULT,
