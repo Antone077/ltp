@@ -25,6 +25,9 @@ static void verify_setrlimit(void)
 	pid_t pid;
 
 	pid = vfork();
+	if (pid == -1)
+    	tst_brk(TBROK, "vfork() failed");
+
 	if (!pid) {
 		TEST(setrlimit(RLIMIT_NOFILE, bad_addr));
 		if (TST_RET != -1) {

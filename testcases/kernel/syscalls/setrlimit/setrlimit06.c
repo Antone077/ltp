@@ -76,7 +76,7 @@ static void verify_setrlimit(void)
 		_exit(0);
 	}
 
-	SAFE_WAITPID(pid, &status, 0);
+	//SAFE_WAITPID(pid, &status, 0);
 
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
 		return;
