@@ -72,6 +72,6 @@ static void setup(void)
 
 static struct tst_test test = {
 	.test_all = verify_setrlimit,
-	.forks_child = 1,
+	//.forks_child = 1,
 	.setup = setup,
 };
