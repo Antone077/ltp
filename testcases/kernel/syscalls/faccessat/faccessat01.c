@@ -84,7 +84,7 @@ int main(int ac, char **av)
 		 */
 		for (i = 0; i < TST_TOTAL; i++) {
 			TEST(myfaccessat(fds[i], filenames[i], R_OK));
-
+			printf("fd = %d\t filename = %s\n", fds[i], filenames[i]);
 			/* check return code */
 			if (TEST_ERRNO == expected_errno[i]) {
 				tst_resm(TPASS,
