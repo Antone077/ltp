@@ -14,7 +14,7 @@
 #include "tst_test.h"
 #include "lapi/syscalls.h"
 
-//static uid_t uid;
+static uid_t uid;
 
 static struct tcase {
 	void *addr;
@@ -36,26 +36,23 @@ static void verify_access(unsigned int n)
 	             "invalid address as root");
 
 	/* test as nobody */
-	//pid = SAFE_FORK();
-	//pid = tst_syscall(__NR_fork);
-	pid = vfork();
+	pid = SAFE_FORK();
 	if (pid) {
-		//SAFE_WAITPID(pid, NULL, 0);
+		SAFE_WAITPID(pid, NULL, 0);
 	} else {
-		//SAFE_SETUID(uid);
+		SAFE_SETUID(uid);
 		TST_EXP_FAIL(access(tc->addr, tc->mode), EFAULT,
 		             "invalid address as nobody");
-		_exit(0);
 	}
 }
 
 static void setup(void)
 {
-	// struct passwd *pw;
+	struct passwd *pw;
 
-	// pw = SAFE_GETPWNAM("nobody");
+	pw = SAFE_GETPWNAM("nobody");
 
-	// uid = pw->pw_uid;
+	uid = pw->pw_uid;
 }
 
 static struct tst_test test = {
