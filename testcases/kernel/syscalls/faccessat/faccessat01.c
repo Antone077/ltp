@@ -84,25 +84,17 @@ int main(int ac, char **av)
 		 */
 		for (i = 0; i < TST_TOTAL; i++) {
 			TEST(myfaccessat(fds[i], filenames[i], R_OK));
-			printf("fd = %d\t filename = %s\n", fds[i], filenames[i]);
 			/* check return code */
-			if(TEST_RETURN < 0){
-				tst_resm(TTERRNO | TINFO, "faccessat() returned the errno %d: %s",
+			if (TEST_ERRNO == expected_errno[i]) {
+				tst_resm(TPASS,
+					 "faccessat() returned the expected  errno %d: %s",
 					 TEST_ERRNO,
 					 strerror(TEST_ERRNO));
-			}else{
-				tst_resm(TPASS, "fasccessat success!");
+			} else {
+				tst_resm(TFAIL,
+					 "faccessdat() Failed, errno=%d : %s",
+					 TEST_ERRNO, strerror(TEST_ERRNO));
 			}
-			// if (TEST_ERRNO == expected_errno[i]) {
-			// 	tst_resm(TPASS,
-			// 		 "faccessat() returned the expected  errno %d: %s",
-			// 		 TEST_ERRNO,
-			// 		 strerror(TEST_ERRNO));
-			// } else {
-			// 	tst_resm(TFAIL,
-			// 		 "faccessdat() Failed, errno=%d : %s",
-			// 		 TEST_ERRNO, strerror(TEST_ERRNO));
-			// }
 		}
 	}
 

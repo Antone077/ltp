@@ -57,13 +57,13 @@ static void verify_setrlimit(void)
 	*end = 0;
 
 	pid = vfork();
-	if (pid == -1)
-    	tst_brk(TBROK | TTERRNO, "vfork() failed");
+
 	if (!pid) {
 		struct rlimit rlim = {
 			.rlim_cur = 1,
 			.rlim_max = 2,
 		};
+		tst_res(TINFO, "enter child process");
 
 		TEST(setrlimit(RLIMIT_CPU, &rlim));
 		if (TST_RET == -1) {
@@ -78,7 +78,7 @@ static void verify_setrlimit(void)
 		_exit(0);
 	}
 
-	//SAFE_WAITPID(pid, &status, 0);
+	SAFE_WAITPID(pid, &status, 0);
 
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
 		return;

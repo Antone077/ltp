@@ -14,8 +14,6 @@
 #include <sys/time.h>
 #include <sys/wait.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <unistd.h>
 
 #include "tst_test.h"
 
@@ -26,15 +24,12 @@ static void verify_setrlimit(void)
 	int status;
 	pid_t pid;
 
-	pid = vfork();
-	if (pid == -1)
-    	tst_brk(TBROK | TTERRNO, "vfork() failed");
-
+	pid = SAFE_FORK();
 	if (!pid) {
 		TEST(setrlimit(RLIMIT_NOFILE, bad_addr));
 		if (TST_RET != -1) {
 			tst_res(TFAIL, "setrlimit()  succeeded unexpectedly");
-			_exit(0);
+			exit(0);
 		}
 
 		/* Usually, setrlimit() should return EFAULT */
@@ -46,7 +41,7 @@ static void verify_setrlimit(void)
 				"setrlimit() should fail with EFAULT, got");
 		}
 
-		_exit(0);
+		exit(0);
 	}
 
 	SAFE_WAITPID(pid, &status, 0);
