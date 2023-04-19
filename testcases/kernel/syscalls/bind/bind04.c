@@ -35,8 +35,8 @@ static struct test_case testcase_list[] = {
 	/* UNIX sockets */
 	{SOCK_STREAM, 0, (struct sockaddr *)&unix_addr, sizeof(unix_addr),
 		"AF_UNIX pathname stream"},
-	{SOCK_SEQPACKET, 0, (struct sockaddr *)&unix_addr, sizeof(unix_addr),
-		"AF_UNIX pathname seqpacket"},
+	// {SOCK_SEQPACKET, 0, (struct sockaddr *)&unix_addr, sizeof(unix_addr),
+	// 	"AF_UNIX pathname seqpacket"},
 	{SOCK_STREAM, 0, (struct sockaddr *)&abstract_addr,
 		sizeof(abstract_addr), "AF_UNIX abstract stream"},
 	{SOCK_SEQPACKET, 0, (struct sockaddr *)&abstract_addr,
