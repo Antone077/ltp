@@ -7,6 +7,10 @@
         "xqm.h": "c",
         "inotify.h": "c",
         "tst_test.h": "c",
-        "test.h": "c"
+        "test.h": "c",
+        "compat_tst_16.h": "c",
+        "getdents.h": "c",
+        "errno.h": "c",
+        "system_error": "c"
     }
 }

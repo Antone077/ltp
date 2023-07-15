@@ -26,15 +26,16 @@ static struct epoll_event events = {.events = EPOLLIN};
 static void setup(void)
 {
 	int depth;
-
+	tst_res(TINFO, "fd is %d, epfd is %d\n", fd[0],epfd);
 	SAFE_PIPE(fd);
-
+	tst_res(TINFO, "fd is %d, epfd is %d\n", fd[0],epfd);
 	for (depth = 0, epfd = fd[0]; depth < MAX_DEPTH; depth++) {
 		new_epfd = epoll_create(1);
 		if (new_epfd == -1)
 			tst_brk(TBROK | TERRNO, "fail to create epoll instance");
 
 		events.data.fd = epfd;
+		tst_res(TINFO, "epfd is %d\n", epfd);
 		if (epoll_ctl(new_epfd, EPOLL_CTL_ADD, epfd, &events))
 			tst_brk(TBROK | TERRNO, "epoll_clt(..., EPOLL_CTL_ADD, ...)");
 

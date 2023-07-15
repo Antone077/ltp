@@ -23,6 +23,7 @@
 #include <errno.h>
 #include <linux/unistd.h>
 #include <sys/wait.h>
+#include <unistd.h>
 
 #include "test.h"
 #include "safe_macros.h"
@@ -37,7 +38,8 @@ static void verify_exit_group(void)
 	pid_t cpid, w;
 	int status;
 
-	cpid = fork();
+	//cpid = fork();
+	cpid = vfork();
 	if (cpid == -1)
 		tst_brkm(TFAIL | TERRNO, NULL, "fork failed");
 
